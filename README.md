@@ -6,7 +6,7 @@ If you're here, then you've passed the initial interview stage. Welcome and we'r
 
 ### Your Challenge
 
-We would like you to implement UX functionality and feedback effects for the Game Directory page as displayed in the Figma link below. You will utilise the backend provided in Docker as your source of data.
+We would like you to implement UX functionality and feedback effects for the Game Directory page as displayed in the link below. You will utilise the backend provided in Docker as your source of data.
 
 ### Design
 
