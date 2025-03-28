@@ -1,0 +1,12 @@
+/* Custom styles for the toggle switch */
+#live-toggle:checked ~ .toggle-dot {
+  transform: translateX(1rem);
+}
+
+/* Add pointer cursor to toggle elements */
+.toggle-container,
+.toggle-bg,
+.toggle-dot,
+label[for="live-toggle"] {
+  cursor: pointer;
+}
