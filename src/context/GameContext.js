@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useState, useEffect, useContext } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import { fetchGames, fetchGenres, fetchPlatforms } from "../api";
 
 // Create the context
@@ -20,8 +26,8 @@ export function GameProvider({ children }) {
   // State for filters - set liveOnly to true by default
   const [filters, setFilters] = useState({
     searchQuery: "",
-    selectedGenre: "",
-    selectedPlatform: "",
+    selectedGenres: [], // Changed to array for multiple selection
+    selectedPlatforms: [], // Changed to array for multiple selection
     liveOnly: true, // Default to showing live games
   });
 
@@ -50,10 +56,8 @@ export function GameProvider({ children }) {
       try {
         const gameData = await fetchGames({
           nameSearch: filters.searchQuery,
-          genreFilter:
-            filters.selectedGenre !== "all" ? filters.selectedGenre : "",
-          platformFilter:
-            filters.selectedPlatform !== "all" ? filters.selectedPlatform : "",
+          genreFilters: filters.selectedGenres, // Now passing array
+          platformFilters: filters.selectedPlatforms, // Now passing array
           liveOnly: filters.liveOnly,
         });
         setGames(gameData);
@@ -72,18 +76,26 @@ export function GameProvider({ children }) {
     return () => clearTimeout(handler);
   }, [
     filters.searchQuery,
-    filters.selectedGenre,
-    filters.selectedPlatform,
+    filters.selectedGenres,
+    filters.selectedPlatforms,
     filters.liveOnly,
   ]);
 
   // Update filter function
-  const updateFilter = (filterType, value) => {
+  const updateFilter = useCallback((filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: value,
     }));
-  };
+  }, []);
+
+  // Update multiple filters at once
+  const updateMultipleFilters = useCallback((newFilters) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      ...newFilters,
+    }));
+  }, []);
 
   // Context value
   const contextValue = {
@@ -93,6 +105,7 @@ export function GameProvider({ children }) {
     loading,
     filters,
     updateFilter,
+    updateMultipleFilters,
   };
 
   return (
