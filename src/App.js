@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router } from "react-router-dom";
+import React from "react";
+import "./App.css";
+import { GameProvider } from "./context/GameContext";
+// import GameDirectory from "./components/GameDirectory";
+import GameList from "./components/GameList";
+import Sidebar from "./components/Sidebar";
 
+// App component that provides the context
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <GameProvider>
+        <div className="flex min-h-screen bg-gray-900 text-white">
+          <Sidebar />
+          <main className="flex-1 p-6">
+            {/* <h1 className="text-3xl font-bold mb-6">Game Directory</h1> */}
+            <GameList />
+          </main>
+        </div>
+      </GameProvider>
+    </Router>
   );
 }
 
